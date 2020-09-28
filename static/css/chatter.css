@@ -1,0 +1,89 @@
+@font-face
+{
+    font-family: 'BalsamiqSans';
+    src: url("/static/font/BalsamiqSans-Regular.ttf") format("truetype")
+}
+
+body
+{
+    font-family: 'BalsamiqSans';
+    background: url("/static/images/bg.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+header
+{
+    margin-top: 5%;
+}
+
+img#orange
+{
+    margin-left: 38%;
+    width: 128px;
+    height: 128px;
+}
+
+form
+{
+    margin-left: 42%;
+    margin-top: 1%;
+}
+
+form>input
+{
+    width: 265px;
+    height: 32px;
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 25px;
+}
+
+form>input:focus
+{
+    border: 5px solid #ffaa00;
+}
+
+.chatter-btn
+{
+    margin-top: 3%;
+
+    background-color: rgba(255, 119, 0, 0.5);
+    color: white;
+
+    height: 50px;
+}
+
+.chatter-btn:hover
+{
+    transform: scale3d(1.1, 1.1, 1.1);
+    background-color: rgba(255, 157, 71, 0.5);
+}
+
+div#no-account-yet
+{
+    margin-left: 42%;
+    margin-top: 10%;
+    background-color:rgba(255, 119, 0, 0.5);
+    width: 265px;
+    border-radius: 25px;
+    color: white;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 2px solid #17181c;
+}
+
+footer
+{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #17181c;
+    color: white;
+    text-align: center;
+    border-radius: 25px;
+}
