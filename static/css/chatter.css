@@ -66,24 +66,33 @@ div#no-account-yet
 {
     margin-left: 42%;
     margin-top: 10%;
-    background-color:rgba(255, 119, 0, 0.5);
-    width: 265px;
-    border-radius: 25px;
-    color: white;
-    text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
+    
+    background-color:rgba(255, 119, 0, 0.5);
+    color: white;
+
+    width: 265px;
+
+    border-radius: 25px;
     border: 2px solid #17181c;
+    
+    text-align: center;
 }
 
 footer
 {
     position: fixed;
+
     left: 0;
     bottom: 0;
+
     width: 100%;
+
     background-color: #17181c;
     color: white;
+
     text-align: center;
+    
     border-radius: 25px;
 }
