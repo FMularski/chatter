@@ -98,7 +98,7 @@ form>input:focus
     width:200px;
 }
 
-.find-chat-btn, .join-chat-btn
+.find-chat-btn, .join-chat-btn, .add-friend-btn
 {
     width: auto;
     margin-left: 2%;
