@@ -82,9 +82,26 @@ form>input:focus
     border: 5px solid #ffaa00;
 }
 
+#select-friends-form
+{
+    text-align: left;
+}
+
+.find-chat-form
+{
+    text-align: left;
+}
+
+
 .confirm-btn
 {
     width:200px;
+}
+
+.find-chat-btn, .join-chat-btn
+{
+    width: auto;
+    margin-left: 2%;
 }
 
 .chatter-btn

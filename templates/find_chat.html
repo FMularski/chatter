@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Find chat {% endblock %}
+
+{% block content %}
+    <div id="content">
+        <h3>Logged in as user</h3>
+        <h2>Find chat</h2>
+        <form id="select-friends-form">
+            <input type="text" name="chat_name" placeholder="Chat name"/>
+            <input class="chatter-btn find-chat-btn" type="submit" value="Find"/>
+        </form>
+
+        <br/>
+        <h4>Results:</h4>
+        <form class="find-chat-form">
+            <p>chat name 1 <input class="chatter-btn join-chat-btn" type="submit" value="Join"/></p>
+        </form>
+        <form class="find-chat-form">
+            <p>chat name 1 <input class="chatter-btn join-chat-btn" type="submit" value="Join"/></p>
+        </form>
+        <form class="find-chat-form">
+            <p>chat name 1 <input class="chatter-btn join-chat-btn" type="submit" value="Join"/></p>
+        </form>
+    </div>
+{% endblock %}

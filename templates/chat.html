@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %} {{chat_name}} {% endblock %}
+{% block title %} chatter: {{chat_name}} {% endblock %}
 
 {% block content %}
     <div id="content">
         <h3>Logged in as user</h3>
         <p>
-            <span id="chats">{{chat_name}}</span>
+            <span id="chats">{{chat_name}} (user1, user2, user3)</span>
+        </p>
+        <p>
             <a class="btn chatter-btn option-btn">Invite</a>
             <a class="btn chatter-btn option-btn">Leave chat</a>
             <input id="notification-cb" type="checkbox" name="notifications"/> Notifications

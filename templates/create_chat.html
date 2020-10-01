@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %} Create chat {% endblock %}
+
+{% block content %}
+    <div id="content">
+        <h3>Logged in as user</h3>
+        <h2>Create new chat</h2>
+        <form id="select-friends-form">
+            <input type="text" name="chat_name" placeholder="Chat name"/><br/><br/>
+            <h4>Select friends:</h4>
+            <p>user 1 <input type="checkbox"/></p>
+            <p>user 2 <input type="checkbox"/></p>
+            <p>user 3 <input type="checkbox"/></p>
+            <p>user 4 <input type="checkbox"/></p>
+            <br/><br/>
+            <input class="chatter-btn" type="submit" value="Create"/>
+        </form>
+    </div>
+{% endblock %}

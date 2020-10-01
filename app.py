@@ -32,5 +32,21 @@ def create_account():
         return f'{login_}\n{email}\n{password}\n{confirm}'
 
 
+@app.route('/create_chat', methods=['GET', 'POST'])
+def create_chat():
+    if request.method == 'GET':
+        return render_template('create_chat.html')
+    else:
+        pass
+
+
+@app.route('/find_chat', methods=['GET', 'POST'])
+def find_chat():
+    if request.method == 'GET':
+        return render_template('find_chat.html')
+    else:
+        pass
+
+
 if __name__ == '__main__':
     app.run(debug=True)
