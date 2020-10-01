@@ -3,19 +3,12 @@
 {% block title %} Create account {% endblock %}
 
 {% block content %}
-    <header>
-      <img id="orange" src="{{url_for('static', filename='images/orange.gif')}}"/>
-      <img id="logo" src="{{url_for('static', filename='images/logo.png')}}"/>
-    </header>
+    <form action="create_account" method="POST">
+        <input type="text" name="login" placeholder="Login"/><br/>
+        <input type="email" name="email" placeholder="Email"/><br/>
+        <input type="password" name="password" placeholder="Password"/><br/>
+        <input type="password" name="confirm" placeholder="Confirm Password"/><br/><br/>
 
-    <main>
-        <form action="create_account" method="POST">
-            <input type="text" name="login" placeholder="Login"/><br/>
-            <input type="email" name="email" placeholder="Email"/><br/>
-            <input type="password" name="password" placeholder="Password"/><br/>
-            <input type="password" name="confirm" placeholder="Confirm Password"/><br/>
-
-            <input class="chatter-btn" type="submit" value="Create"/>
-      </form>
-    </main>
+        <input class="chatter-btn confirm-btn" type="submit" value="Create"/>
+  </form>
 {% endblock %}

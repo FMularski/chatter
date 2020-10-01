@@ -26,10 +26,46 @@ img#orange
     height: 128px;
 }
 
+div#content
+{
+    width: 60%;
+    margin: auto;
+    background-color: rgba(255, 157, 71, 0.3);
+    padding: 1cm;
+    margin-top: 2%;
+    border-radius: 30px;
+}
+
+span#chats
+{
+    font-size: x-large;
+    font-weight: 500;
+    padding-right: 3%;
+}
+
+a.btn-outline-danger
+{
+    margin-right: 1%;
+    width:12%
+}
+
+img#question-mark
+{
+    width:15px;
+    height: 15px;
+}
+
+img#question-mark:hover
+{
+    transform: scale3d(1.3, 1.3, 1.3);
+    cursor: pointer;
+}
+
 form
 {
-    margin-left: 42%;
+    margin-left: 0%;
     margin-top: 1%;
+    text-align: center;
 }
 
 form>input
@@ -46,25 +82,126 @@ form>input:focus
     border: 5px solid #ffaa00;
 }
 
-.chatter-btn
+.confirm-btn
 {
-    margin-top: 3%;
-
-    background-color: rgba(255, 119, 0, 0.5);
-    color: white;
-
-    height: 50px;
+    width:200px;
 }
 
-.chatter-btn:hover
+.chatter-btn
+{
+    background-color: rgba(255, 119, 0, 0.5);
+    color: white;
+    height: 50px;
+    border-radius: 25px;
+    padding-left: 1cm;
+    padding-right: 1cm;
+    border: 1px solid #17181c;
+}
+
+.option-btn
+{
+    width: 20%;
+    margin-left: 1%;
+}
+
+.chatter-btn:hover, div#no-account-yet:hover
 {
     transform: scale3d(1.1, 1.1, 1.1);
     background-color: rgba(255, 157, 71, 0.5);
+    color: white;
 }
+
+input#notification-cb
+{
+    margin-left: 2%;
+}
+
+input#notification-cb:hover
+{
+    transform: scale3d(1.3, 1.3, 1.3);
+    cursor: pointer;
+}
+
+
+div#chat
+{
+    background-color:  rgba(255, 255, 255, 0.5);
+    border-radius: 30px;
+    padding: 1cm;
+    overflow: auto;
+    max-height: 480px;
+    border: 1px solid white;
+}
+
+.table
+{
+    text-align: center;
+}
+
+.message
+{
+    font-size: medium;
+    padding: 25px;
+    border-radius: 25px;
+    width: 50.1%;
+    margin-bottom: 2%;
+}
+
+.message:hover
+{
+    transform: scale3d(1.05, 1.05, 1.05);
+}
+
+.message>span
+{
+    font-style: italic;
+}
+
+.message-user
+{
+    background-color: rgba(158, 255, 210, 0.5);
+    float:right;
+}
+
+.message-friend
+{
+    background-color: rgba(255, 71, 38, 0.5);
+    float:left;
+}
+
+.message-system
+{
+    background-color: rgba(38, 139, 255, 0.5);
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+
+.message-field
+{
+    margin-top: 1%;
+    padding: 1cm;
+    overflow: auto;
+}
+
+.ta-message, .ta-message:focus
+{
+    background-color:  rgba(255, 255, 255, 0.5);
+    width: 75%;
+    float: right;
+}
+
+.send-btn
+{
+    float: left;
+    width: 20%;
+}
+
 
 div#no-account-yet
 {
-    margin-left: 42%;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 10%;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -75,7 +212,7 @@ div#no-account-yet
     width: 265px;
 
     border-radius: 25px;
-    border: 2px solid #17181c;
+    border: 1px solid #17181c;
     
     text-align: center;
 }

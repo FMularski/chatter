@@ -3,5 +3,32 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-    <h1>Home</h1>
+    <div id="content">
+        <h3>Logged in as user</h3>
+        <p>
+            <span>Logged in as user</span>
+            <a class="btn chatter-btn option-btn">Create chat</a>
+            <a class="btn chatter-btn option-btn">Find chat</a>
+            <a class="btn chatter-btn option-btn">Friends</a>
+        </p>
+        <table class="table table-hover table-striped">
+            <tbody>
+                <tr>
+                    <td>Chat name</td>
+                    <td>user1, user2, user3</td>
+                    <td>message img</td>
+                </tr>
+                <tr>
+                    <td>Chat name</td>
+                    <td>user1, user2, user3</td>
+                    <td>message img</td>
+                </tr>
+                <tr>
+                    <td>Chat name</td>
+                    <td>user1, user2, user3</td>
+                    <td>message img</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

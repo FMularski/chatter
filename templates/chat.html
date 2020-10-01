@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %} {{chat_name}} {% endblock %}
+
+{% block content %}
+    <div id="content">
+        <h3>Logged in as user</h3>
+        <p>
+            <span id="chats">{{chat_name}}</span>
+            <a class="btn chatter-btn option-btn">Invite</a>
+            <a class="btn chatter-btn option-btn">Leave chat</a>
+            <input id="notification-cb" type="checkbox" name="notifications"/> Notifications
+            <img id="question-mark" src="{{url_for('static', filename='images/question_mark.png')}}"
+            data-toggle="popover" title="Notifications" data-content="Check this box to receive mail
+            notifications about new messages in this chat."/>
+        </p>
+
+        <div id="chat">
+            <div class="message message-user">
+                <span>user name data</span>
+                <hr/>
+                message
+            </div>
+
+            <div class="message message-friend">
+                <span>user name data</span>
+                <hr/>
+                message
+            </div>
+
+            <div class="message message-friend">
+                <span>user name data</span>
+                <hr/>
+                message
+            </div>
+
+            <div class="message message-system">
+                user has joined the chat
+            </div>
+
+            <div class="message message-user">
+                <span>user name data</span>
+                <hr/>
+                message
+            </div>
+
+            <div class="message message-friend">
+                <span>user name data</span>
+                <hr/>
+                message
+            </div>
+
+            <div class="message message-friend">
+                <span>user name data</span>
+                <hr/>
+                message
+            </div>
+
+            <div class="message message-system">
+                user has joined the chat
+            </div>
+
+            <div class="message message-user">
+                <span>user name data</span>
+                <hr/>
+                message
+            </div>
+
+            <div class="message message-friend">
+                <span>user name data</span>
+                <hr/>
+                message
+            </div>
+
+            <div class="message message-friend">
+                <span>user name data</span>
+                <hr/>
+                message
+            </div>
+
+            <div class="message message-system">
+                user has joined the chat
+            </div>
+
+        </div>
+
+        <div class="message-field">
+            <form>
+                <p>
+                    <input type="submit" class="chatter-btn send-btn" value="Send"/>
+                    <textarea class="form-control ta-message" rows="4" cols="10" name="message"></textarea>
+                </p>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(function () {
+         $('[data-toggle="popover"]').popover()
+        })
+    </script>
+
+    <script src="{{url_for('static', filename='js/chat.js')}}"></script>
+{% endblock %}

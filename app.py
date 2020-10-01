@@ -4,6 +4,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
+@app.route('/login')
 def login():
     return render_template('login.html')
 
@@ -11,6 +12,11 @@ def login():
 @app.route('/home')
 def home():
     return render_template('home.html')
+
+
+@app.route('/chat/<chat_name>')
+def chat(chat_name):
+    return render_template('chat.html', chat_name=chat_name)
 
 
 @app.route('/create_account', methods=['GET', 'POST'])

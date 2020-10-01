@@ -3,25 +3,16 @@
 {% block title%} Welcome to chatter {% endblock %}
 
 {% block content %}
-  <header>
-      <img id="orange" src="{{url_for('static', filename='images/orange.gif')}}"/>
-      <img id="logo" src="{{url_for('static', filename='images/logo.png')}}"/>
-    </header>
+    <form>
+      <input type="text" name="login" placeholder="Login"/><br/>
+      <input type="password" name="password" placeholder="Password"/><br/><br/>
+      <input class="chatter-btn confirm-btn" type="submit" value="Log In"/>
+    </form>
 
-    <main>
-
-      <form>
-        <input type="text" name="login" placeholder="Login"/><br/>
-        <input type="password" name="password" placeholder="Password"/><br/>
-        <input class="chatter-btn" type="submit" value="Log In"/>
-      </form>
-
-      <div id="no-account-yet">
-        <h3>No account yet?</h3>
-        <h5>Join us!</h5>
-        <a href="{{url_for('create_account')}}">Create an account</a>
-      </div>
-
-    </main>
+    <div id="no-account-yet">
+      <h3>No account yet?</h3>
+      <h5>Join us!</h5>
+      <a href="{{url_for('create_account')}}">Create an account</a>
+    </div>
 {% endblock %}
 
