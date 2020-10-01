@@ -1,6 +1,29 @@
 from flask import Flask, render_template, request
 
+"""
+importing models:
+importing db, global reference
+
+it is necessary to import all models (here: User, Chat, Message)
+as it is important during db.create_all()
+"""
+
+from models.database import db
+from models.user import User
+from models.chat import Chat
+from models.message import Message
+
+
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///chatter.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
+"""
+initializing db with app
+"""
+db.init_app(app)
+app.app_context().push()
 
 
 @app.route('/')
@@ -57,4 +80,6 @@ def friends():
 
 
 if __name__ == '__main__':
+    db.create_all()
     app.run(debug=True)
+
