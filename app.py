@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import os
 
 
@@ -33,13 +33,42 @@ app.app_context().push()
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
+        if 'user_id' in session:
+            return redirect(url_for('home'))
+
         return render_template('login.html')
     else:
-        pass
+        login_ = request.form['login']
+        password = request.form['password']
+
+        user_in_db = User.query.filter_by(login=login_).first()
+
+        if not user_in_db:
+            flash('Invalid login. Try again.', category='danger')
+            return redirect(url_for('login'))
+
+        if password != user_in_db.password:
+            flash('Invalid password. Try again.', category='danger')
+            return redirect(url_for('login'))
+
+        session['user_id'] = user_in_db.id
+        return redirect(url_for('home'))
+
+
+@app.route('/logout')
+def log_out():
+    if 'user_id' in session:
+        session.pop('user_id', None)
+        flash('Logged out.', category='success')
+
+    return redirect(url_for('login'))
 
 
 @app.route('/home')
 def home():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
     return render_template('home.html')
 
 
@@ -51,6 +80,9 @@ def chat(chat_name):
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
     if request.method == 'GET':
+        if 'user_id' in session:
+            return redirect(url_for('home'))
+
         return render_template('create_account.html')
     else:
         login_ = request.form['login']
