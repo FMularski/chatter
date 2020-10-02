@@ -70,9 +70,9 @@ def home():
         return redirect(url_for('login'))
 
     user_in_db = User.query.filter_by(id=session['user_id']).first()
-    joined_chats = user_in_db.chats
+    chats = user_in_db.chats
 
-    return render_template('home.html', login=user_in_db.login, chats=joined_chats)
+    return render_template('home.html', login=user_in_db.login, chats=chats)
 
 
 @app.route('/chat/<chat_name>')
