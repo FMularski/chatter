@@ -3,6 +3,7 @@ importing global db from separate file
 it is used to create model's columns, ex. id = db.Column(...)
 """
 from .database import db
+from .many_to_many import memberships
 
 
 class Chat(db.Model):
@@ -25,6 +26,14 @@ class Chat(db.Model):
     False/joined: relationships objects are always loaded with their parents
     """
     messages = db.relationship('Message', backref='chat', lazy=True)
+
+    """
+    many-to-many relationship
+    lazy loading = subquery (works like joined) for Chat.members
+    lazy loading = True for User.chats 
+    """
+    members = db.relationship('User', secondary=memberships, lazy='subquery',
+                              backref=db.backref('chats', lazy=True))
 
     def __repr__(self):
         return f'{self.id} {self.name} {self.owner_id}'
