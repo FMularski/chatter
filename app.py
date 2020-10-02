@@ -69,7 +69,10 @@ def home():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    return render_template('home.html')
+    user_in_db = User.query.filter_by(id=session['user_id']).first()
+    joined_chats = user_in_db.chats
+
+    return render_template('home.html', login=user_in_db.login, chats=joined_chats)
 
 
 @app.route('/chat/<chat_name>')
@@ -110,11 +113,48 @@ def create_account():
         flash('Account has been successfully created. You can now log in.', category='success')
 
         return redirect(url_for('login'))
+    
+
+@app.route('/friends', methods=['GET'])
+def friends():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_in_db = User.query.filter_by(id=session['user_id']).first()
+    
+    return render_template('friends.html', login=user_in_db.login, friends=user_in_db.friends)
+
+
+@app.route('/add_friend', methods=['POST'])
+def add_friend():
+    friend_login = request.form['friend']
+
+    friend_in_db = User.query.filter_by(login=friend_login).first()
+
+    if not friend_in_db:
+        flash(f'{friend_login} not found. Try again.', category='danger')
+        return redirect(url_for('friends'))
+
+    user_in_db = User.query.filter_by(id=session['user_id']).first()
+
+    if friend_in_db in user_in_db.friends:
+        flash(f'{friend_login} is already your friend.', category='danger')
+        return redirect(url_for('friends'))
+
+    user_in_db.friends.append(friend_in_db)
+    friend_in_db.friends.append(user_in_db)
+    db.session.commit()
+
+    flash(f'{friend_login} is now your friend.', category='success')
+    return redirect(url_for('friends'))
 
 
 @app.route('/create_chat', methods=['GET', 'POST'])
 def create_chat():
     if request.method == 'GET':
+        if 'user_id' not in session:
+            return redirect(url_for('login'))
+
         return render_template('create_chat.html')
     else:
         pass
@@ -124,14 +164,6 @@ def create_chat():
 def find_chat():
     if request.method == 'GET':
         return render_template('find_chat.html')
-    else:
-        pass
-
-
-@app.route('/friends', methods=['GET', 'POST'])
-def friends():
-    if request.method == 'GET':
-        return render_template('friends.html')
     else:
         pass
 

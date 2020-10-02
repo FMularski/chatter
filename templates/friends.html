@@ -4,17 +4,21 @@
 
 {% block content %}
     <div id="content">
-        <h3>Logged in as user</h3>
+        <h3>Logged in as {{login}}</h3>
         <h2>Friends</h2>
 
-        <p>user1</p>
-        <p>user2</p>
-        <p>user3</p>
-        <p>user4</p>
+        {% if friends|length > 0 %}
+            {% for friend in friends %}
+                <p>{{friend.login}}</p>
+            {% endfor %}
+        {% else %}
+            <p>You have no friends.</p>
+        {% endif %}
 
-        <form>
+
+        <form action="add_friend" method="POST">
             <h4>Add friend</h4>
-            <input type="text" name="friend" placeholder="friend's login">
+            <input type="text" name="friend" placeholder="friend's login" required>
             <input class="chatter-btn add-friend-btn" type="submit" value="Add">
         </form>
     </div>

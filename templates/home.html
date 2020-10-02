@@ -4,30 +4,26 @@
 
 {% block content %}
     <div id="content">
-        <h3>Logged in as user</h3>
+        <h3>Logged in as {{login}}</h3>
         <p>
-            <a class="btn chatter-btn option-btn">Create chat</a>
+            <a href="{{url_for('create_chat')}}" class="btn chatter-btn option-btn">Create chat</a>
             <a class="btn chatter-btn option-btn">Find chat</a>
-            <a class="btn chatter-btn option-btn">Friends</a>
+            <a href="{{url_for('friends')}}" class="btn chatter-btn option-btn">Friends</a>
             <a href="{{url_for('log_out')}}" class="btn chatter-btn option-btn log-out-btn">Log out</a>
         </p>
         <table class="table table-hover table-striped">
             <tbody>
-                <tr>
-                    <td>Chat name</td>
-                    <td>user1, user2, user3</td>
-                    <td>message img</td>
-                </tr>
-                <tr>
-                    <td>Chat name</td>
-                    <td>user1, user2, user3</td>
-                    <td>message img</td>
-                </tr>
-                <tr>
-                    <td>Chat name</td>
-                    <td>user1, user2, user3</td>
-                    <td>message img</td>
-                </tr>
+                {% if chats|length > 0 %}
+                    {% for chat in chats %}
+                        <tr>
+                            <td>Chat name</td>
+                            <td>user1, user2, user3</td>
+                            <td>message img</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <p>You have not joined any chats yet.</p>
+                {% endif %}
             </tbody>
         </table>
     </div>
