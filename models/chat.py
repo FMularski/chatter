@@ -35,5 +35,9 @@ class Chat(db.Model):
     members = db.relationship('User', secondary=memberships, lazy='subquery',
                               backref=db.backref('chats', lazy=True))
 
+    def __init__(self, name, owner_id):
+        self.name = name
+        self.owner_id = owner_id
+
     def __repr__(self):
         return f'{self.id} {self.name} {self.owner_id}'

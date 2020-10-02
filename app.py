@@ -155,9 +155,45 @@ def create_chat():
         if 'user_id' not in session:
             return redirect(url_for('login'))
 
-        return render_template('create_chat.html')
+        user_in_db = User.query.filter_by(id=session['user_id']).first()
+
+        return render_template('create_chat.html', login=user_in_db.login, friends=user_in_db.friends)
     else:
-        pass
+        friends_ids = request.form.getlist('invite_to_chat')    # get ids of members of the new chat
+
+        if len(friends_ids) == 0:
+            flash('You must invite at least 1 friend to create a chat. Try again.', category='danger')
+            return redirect(url_for('create_chat'))
+
+        user_in_db = User.query.filter_by(id=session['user_id']).first()
+
+        chat_name = request.form['chat_name']
+        new_chat = Chat(chat_name, owner_id=user_in_db.id)
+
+        """
+        +append the first member of the new chat - the creator
+        +assigning creator as the owned !!! property User.owned_chats
+        will append the new chat automatically <relationship 1:many> !!!
+        """
+
+        new_chat.members.append(user_in_db)
+        new_chat.owner = user_in_db
+
+        """
+        appending the rest of members
+        !!! property User.chats for each User will be automatically updated
+        - it will append the new chat
+        """
+
+        for friend_id in friends_ids:
+            friend = User.query.filter_by(id=friend_id).first()
+            new_chat.members.append(friend)
+
+        db.session.add(new_chat)
+        db.session.commit()
+
+        flash(f'Chat {chat_name} has been created successfully.', category='success')
+        return redirect(url_for('home'))
 
 
 @app.route('/find_chat', methods=['GET', 'POST'])
