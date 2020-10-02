@@ -17,11 +17,11 @@ body
 header
 {
     margin-top: 5%;
+    text-align: center;
 }
 
 img#orange
 {
-    margin-left: 38%;
     width: 128px;
     height: 128px;
 }

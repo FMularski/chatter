@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
+import os
+
 
 """
 importing models:
@@ -15,6 +17,7 @@ from models.message import Message
 
 
 app = Flask(__name__)
+app.secret_key = os.urandom(16)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///chatter.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -26,10 +29,13 @@ db.init_app(app)
 app.app_context().push()
 
 
-@app.route('/')
-@app.route('/login')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        pass
 
 
 @app.route('/home')
@@ -52,7 +58,26 @@ def create_account():
         password = request.form['password']
         confirm = request.form['confirm']
 
-        return f'{login_}\n{email}\n{password}\n{confirm}'
+        if password != confirm:
+            flash('Password and password confirmation did not match. Try again.', category='danger')
+            return redirect('create_account')
+
+        if User.query.filter_by(login=login_).first():
+            flash('Login already exists. Try again.', category='danger')
+            return redirect('create_account')
+
+        if User.query.filter_by(email=email).first():
+            flash('Email already exists. Try again.', category='danger')
+            return redirect('create_account')
+
+        new_user = User(login_, email, password)
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash('Account has been successfully created. You can now log in.', category='success')
+
+        return redirect(url_for('login'))
 
 
 @app.route('/create_chat', methods=['GET', 'POST'])
@@ -82,4 +107,3 @@ def friends():
 if __name__ == '__main__':
     db.create_all()
     app.run(debug=True)
-

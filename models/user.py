@@ -3,6 +3,7 @@ importing global db from separate file
 it is used to create model's columns, ex. id = db.Column(...)
 """
 from .database import db
+from .many_to_many import friendships
 
 
 class User(db.Model):
@@ -27,6 +28,16 @@ class User(db.Model):
     """
     owned_chats = db.relationship('Chat', backref='owner', lazy=True)
     messages = db.relationship('Message', backref='author', lazy=True)
+
+    friends = db.relationship('User', secondary=friendships,
+                              primaryjoin=friendships.c.user_id == id,
+                              secondaryjoin=friendships.c.friend_id == id,
+                              backref='users_knowing_this')
+
+    def __init__(self, login, email, password):
+        self.login = login
+        self.email = email
+        self.password = password
 
     def __repr__(self):
         return f'{self.id} {self.login} {self.email} {self.password}'
