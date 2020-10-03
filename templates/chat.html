@@ -26,13 +26,13 @@
                         </div>
                     {% elif message.author_id == user.id %}
                         <div class="message message-user">
-                            <span>{{user.login}} {{message.date}}</span>
+                            <span><b>{{message.author_login}}</b> {{message.date}}</span>
                             <hr/>
                             {{message.text}}
                         </div>
                     {% else %}
                         <div class="message message-friend">
-                            <span>{{user.login}} {{message.date}}</span>
+                            <span><b>{{message.author_login}}</b> {{message.date}}</span>
                             <hr/>
                             {{message.text}}
                         </div>
@@ -44,10 +44,10 @@
         </div>
 
         <div class="message-field">
-            <form>
+            <form action="{{url_for('send_message', chat_id=chat.id)}}" method="POST">
                 <p>
                     <input type="submit" class="chatter-btn send-btn" value="Send"/>
-                    <textarea class="form-control ta-message" rows="4" cols="10" name="message"></textarea>
+                    <textarea class="form-control ta-message" rows="4" cols="10" name="message" required></textarea>
                 </p>
             </form>
         </div>

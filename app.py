@@ -34,6 +34,8 @@ app.app_context().push()
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    session.pop('user_id', None)
+
     if request.method == 'GET':
         if 'user_id' in session:
             return redirect(url_for('home'))
@@ -84,6 +86,24 @@ def chat(chat_id):
     messages = Message.query.filter_by(chat_id=chat_id).all()
 
     return render_template('chat.html', user=user_in_db, chat=chat_, messages=messages)
+
+
+@app.route('/send_message/<chat_id>', methods=['POST'])
+def send_message(chat_id):
+    user_in_db = User.query.filter_by(id=session['user_id']).first()
+    chat_ = Chat.query.filter_by(id=chat_id).first()
+
+    message_text = request.form['message']
+    message_date = datetime.now().strftime('%d %B %Y, %H:%M')
+    author_id = user_in_db.id
+    author_login = user_in_db.login
+
+    new_message = Message(message_text, message_date, chat_id, author_id, author_login)
+    chat_.messages.append(new_message)
+
+    db.session.commit()
+
+    return redirect(url_for('chat', chat_id=chat_id))
 
 
 @app.route('/create_account', methods=['GET', 'POST'])
@@ -147,7 +167,7 @@ def join_chat(chat_id):
         return redirect(url_for('find_chat'))
 
     user_joined_message = Message(f'{user_in_db.login} has joined the chat.', datetime.now(),
-                                  chat_id=chat_.id, author_id=0)
+                                  chat_id=chat_.id, author_id=0, author_login='system')
     chat_.messages.append(user_joined_message)
 
     chat_.members.append(user_in_db)
@@ -235,6 +255,17 @@ def create_chat():
         db.session.commit()
 
         flash(f'Chat {chat_name} has been created successfully.', category='success')
+
+        chat_created_message = Message(f'{user_in_db.login} has created the chat.', datetime.now(), new_chat.id,
+                                       author_id=0, author_login='system')
+        new_chat.messages.append(chat_created_message)
+
+        for member in new_chat.members:
+            user_joined_message = Message(f'{member.login} has joined the chat.', datetime.now(), new_chat.id,
+                                          author_id=0, author_login='system')
+            new_chat.messages.append(user_joined_message)
+        db.session.commit()
+
         return redirect(url_for('home'))
 
 
