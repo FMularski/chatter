@@ -115,6 +115,37 @@ def create_account():
         return redirect(url_for('login'))
     
 
+@app.route('/find_chat', methods=['GET', 'POST'])
+def find_chat():
+    user_in_db = User.query.filter_by(id=session['user_id']).first()
+    if request.method == 'GET':
+        if 'user_id' not in session:
+            return redirect(url_for('login'))
+
+        return render_template('find_chat.html', login=user_in_db.login)
+    else:
+        chat_name = request.form['chat_name']
+        found_chats = Chat.query.filter_by(name=chat_name).all()
+
+        return render_template('find_chat.html', login=user_in_db.login, found_chats=found_chats)
+
+
+@app.route('/join_chat/<chat_id>', methods=['POST'])
+def join_chat(chat_id):
+    chat_ = Chat.query.filter_by(id=chat_id).first()
+    user_in_db = User.query.filter_by(id=session['user_id']).first()
+
+    if chat_ in user_in_db.chats:
+        flash(f'You are already a member of chat {chat_.name}.', category='danger')
+        return redirect(url_for('find_chat'))
+
+    chat_.members.append(user_in_db)
+    db.session.commit()
+
+    flash(f'You have joined chat {chat_.name}.', category='success')
+    return redirect(url_for('home'))
+
+
 @app.route('/friends', methods=['GET'])
 def friends():
     if 'user_id' not in session:
@@ -194,14 +225,6 @@ def create_chat():
 
         flash(f'Chat {chat_name} has been created successfully.', category='success')
         return redirect(url_for('home'))
-
-
-@app.route('/find_chat', methods=['GET', 'POST'])
-def find_chat():
-    if request.method == 'GET':
-        return render_template('find_chat.html')
-    else:
-        pass
 
 
 if __name__ == '__main__':

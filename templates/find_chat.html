@@ -4,23 +4,23 @@
 
 {% block content %}
     <div id="content">
-        <h3>Logged in as user</h3>
+        <h3>Logged in as {{login}}</h3>
         <h2>Find chat</h2>
-        <form id="select-friends-form">
+        <form id="select-friends-form" action="find_chat" method="POST">
             <input type="text" name="chat_name" placeholder="Chat name"/>
             <input class="chatter-btn find-chat-btn" type="submit" value="Find"/>
         </form>
 
         <br/>
-        <h4>Results:</h4>
-        <form class="find-chat-form">
-            <p>chat name 1 <input class="chatter-btn join-chat-btn" type="submit" value="Join"/></p>
-        </form>
-        <form class="find-chat-form">
-            <p>chat name 1 <input class="chatter-btn join-chat-btn" type="submit" value="Join"/></p>
-        </form>
-        <form class="find-chat-form">
-            <p>chat name 1 <input class="chatter-btn join-chat-btn" type="submit" value="Join"/></p>
-        </form>
+        {% if found_chats %}
+            <h4>Results:</h4>
+            {% for chat in found_chats %}
+                <form class="find-chat-form" action="{{url_for('join_chat', chat_id=chat.id)}}" method="POST">
+                    <p><input class="chatter-btn join-chat-btn" type="submit" value="Join"/> {{chat.name}}
+                    ({% for member in chat.members %} {{member.login}} {% endfor %}) </p>
+                </form>
+            {% endfor %}
+        {% endif %}
+
     </div>
 {% endblock %}

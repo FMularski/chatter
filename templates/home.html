@@ -7,7 +7,7 @@
         <h3>Logged in as {{login}}</h3>
         <p>
             <a href="{{url_for('create_chat')}}" class="btn chatter-btn option-btn">Create chat</a>
-            <a class="btn chatter-btn option-btn">Find chat</a>
+            <a href="{{url_for('find_chat')}}" class="btn chatter-btn option-btn">Find chat</a>
             <a href="{{url_for('friends')}}" class="btn chatter-btn option-btn">Friends</a>
             <a href="{{url_for('log_out')}}" class="btn chatter-btn option-btn log-out-btn">Log out</a>
         </p>
