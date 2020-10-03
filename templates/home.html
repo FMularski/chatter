@@ -12,18 +12,11 @@
             <a href="{{url_for('log_out')}}" class="btn chatter-btn option-btn log-out-btn">Log out</a>
         </p>
         <table class="table table-hover table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Members</th>
-                    <th scope="col">???</th>
-                </tr>
-            </thead>
             <tbody>
                 {% if chats|length > 0 %}
                     {% for chat in chats %}
                         <tr>
-                            <td><a href="{{url_for('chat', chat_name=chat.name)}}">{{chat.name}}</a></td>
+                            <td><a href="{{url_for('chat', chat_id=chat.id)}}">{{chat.name}}</a></td>
                             <td>
                                 {% for member in chat.members %}
                                     {{member.login}}

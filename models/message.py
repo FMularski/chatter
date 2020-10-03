@@ -12,6 +12,12 @@ class Message(db.Model):
     chat_id = db.Column(db.Integer, db.ForeignKey('chat.id'), nullable=False)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+    def __init__(self, text, date, chat_id, author_id):
+        self.text = text
+        self.date = date
+        self.chat_id = chat_id
+        self.author_id = author_id
+
     def __repr__(self):
         return f'{self.id} {self.text} {self.chat_id} {self.author_id}'
 

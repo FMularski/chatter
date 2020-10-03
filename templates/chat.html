@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %} chatter: {{chat_name}} {% endblock %}
+{% block title %} chatter: {{chat.name}} {% endblock %}
 
 {% block content %}
     <div id="content">
-        <h3>Logged in as user</h3>
+        <h3>Logged in as {{user.login}}</h3>
         <p>
-            <span id="chats">{{chat_name}} (user1, user2, user3)</span>
+            <span id="chats">{{chat.name}}
+            ({% for member in chat.members %} {{member.login}} {% endfor %}) </span>
         </p>
         <p>
-            <a class="btn chatter-btn option-btn">Invite</a>
             <a class="btn chatter-btn option-btn">Leave chat</a>
             <input id="notification-cb" type="checkbox" name="notifications"/> Notifications
             <img id="question-mark" src="{{url_for('static', filename='images/question_mark.png')}}"
@@ -18,72 +18,29 @@
         </p>
 
         <div id="chat">
-            <div class="message message-user">
-                <span>user name data</span>
-                <hr/>
-                message
-            </div>
-
-            <div class="message message-friend">
-                <span>user name data</span>
-                <hr/>
-                message
-            </div>
-
-            <div class="message message-friend">
-                <span>user name data</span>
-                <hr/>
-                message
-            </div>
-
-            <div class="message message-system">
-                user has joined the chat
-            </div>
-
-            <div class="message message-user">
-                <span>user name data</span>
-                <hr/>
-                message
-            </div>
-
-            <div class="message message-friend">
-                <span>user name data</span>
-                <hr/>
-                message
-            </div>
-
-            <div class="message message-friend">
-                <span>user name data</span>
-                <hr/>
-                message
-            </div>
-
-            <div class="message message-system">
-                user has joined the chat
-            </div>
-
-            <div class="message message-user">
-                <span>user name data</span>
-                <hr/>
-                message
-            </div>
-
-            <div class="message message-friend">
-                <span>user name data</span>
-                <hr/>
-                message
-            </div>
-
-            <div class="message message-friend">
-                <span>user name data</span>
-                <hr/>
-                message
-            </div>
-
-            <div class="message message-system">
-                user has joined the chat
-            </div>
-
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.author_id == 0 %}
+                        <div class="message message-system">
+                            <span>{{message.text}}</span>
+                        </div>
+                    {% elif message.author_id == user.id %}
+                        <div class="message message-user">
+                            <span>{{user.login}} {{message.date}}</span>
+                            <hr/>
+                            {{message.text}}
+                        </div>
+                    {% else %}
+                        <div class="message message-friend">
+                            <span>{{user.login}} {{message.date}}</span>
+                            <hr/>
+                            {{message.text}}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p class="message message-system">No messages yet.</p>
+            {% endif %}
         </div>
 
         <div class="message-field">

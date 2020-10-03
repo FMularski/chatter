@@ -14,12 +14,14 @@ from models.database import db
 from models.user import User
 from models.chat import Chat
 from models.message import Message
+from datetime import timedelta, datetime
 
 
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///chatter.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.permanent_session_lifetime = timedelta(days=1)
 
 
 """
@@ -75,9 +77,13 @@ def home():
     return render_template('home.html', login=user_in_db.login, chats=chats)
 
 
-@app.route('/chat/<chat_name>')
-def chat(chat_name):
-    return render_template('chat.html', chat_name=chat_name)
+@app.route('/chat/<chat_id>')
+def chat(chat_id):
+    chat_ = Chat.query.filter_by(id=chat_id).first()
+    user_in_db = User.query.filter_by(id=session['user_id']).first()
+    messages = Message.query.filter_by(chat_id=chat_id).all()
+
+    return render_template('chat.html', user=user_in_db, chat=chat_, messages=messages)
 
 
 @app.route('/create_account', methods=['GET', 'POST'])
@@ -121,7 +127,7 @@ def find_chat():
         return redirect(url_for('login'))
 
     user_in_db = User.query.filter_by(id=session['user_id']).first()
-    chat_name = request.args.get('chat_name')
+    chat_name = request.args.get('chat_name')   # getting form values for method='GET'
 
     found_chats = []
 
@@ -139,6 +145,10 @@ def join_chat(chat_id):
     if chat_ in user_in_db.chats:
         flash(f'You are already a member of chat {chat_.name}.', category='danger')
         return redirect(url_for('find_chat'))
+
+    user_joined_message = Message(f'{user_in_db.login} has joined the chat.', datetime.now(),
+                                  chat_id=chat_.id, author_id=0)
+    chat_.messages.append(user_joined_message)
 
     chat_.members.append(user_in_db)
     db.session.commit()
