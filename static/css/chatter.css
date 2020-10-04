@@ -20,6 +20,11 @@ header
     text-align: center;
 }
 
+nav
+{
+    text-align: center;
+}
+
 img#orange
 {
     width: 128px;
@@ -121,9 +126,16 @@ form>input:focus
     margin-left: 1%;
 }
 
+.home-btn
+{
+    width: 14%;
+    background-color: rgba(81, 189, 99, 0.8);
+}
+
 .log-out-btn, .log-out-btn:hover
 {
     background-color: rgba(255, 15, 51, 0.7);
+    width: 14%;
 }
 
 .chatter-btn:hover, div#no-account-yet:hover
@@ -158,6 +170,11 @@ div#chat
 .table
 {
     text-align: center;
+}
+
+.table>td
+{
+    width: 33%;
 }
 
 .message
@@ -211,6 +228,12 @@ div#chat
     background-color:  rgba(255, 255, 255, 0.5);
     width: 75%;
     float: right;
+}
+
+.msg-icon
+{
+    width: 4%;
+    height: 5%;
 }
 
 .send-btn

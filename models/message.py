@@ -8,10 +8,11 @@ from .database import db
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(1024), nullable=False)
-    date = db.Column(db.String(32), nullable=False)
+    date = db.Column(db.DateTime(), nullable=False)
     chat_id = db.Column(db.Integer, db.ForeignKey('chat.id'), nullable=False)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     author_login = db.Column(db.String(128), nullable=False)
+    seen_users_ids = db.Column(db.String(256), nullable=True)
 
     def __init__(self, text, date, chat_id, author_id, author_login):
         self.text = text
@@ -19,6 +20,7 @@ class Message(db.Model):
         self.chat_id = chat_id
         self.author_id = author_id
         self.author_login = author_login
+        self.seen_users_ids = ''
 
     def __repr__(self):
         return f'{self.id} {self.text} {self.chat_id} {self.author_id}'

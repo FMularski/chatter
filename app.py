@@ -76,7 +76,7 @@ def home():
     user_in_db = User.query.filter_by(id=session['user_id']).first()
     chats = user_in_db.chats
 
-    return render_template('home.html', login=user_in_db.login, chats=chats)
+    return render_template('home.html', user=user_in_db, chats=chats)
 
 
 @app.route('/chat/<chat_id>')
@@ -84,6 +84,12 @@ def chat(chat_id):
     chat_ = Chat.query.filter_by(id=chat_id).first()
     user_in_db = User.query.filter_by(id=session['user_id']).first()
     messages = Message.query.filter_by(chat_id=chat_id).all()
+
+    # after opening chat users sees all the messages, remove their id
+    for message in messages:
+        message.seen_users_ids = str(message.seen_users_ids).replace(str(user_in_db.id) + ' ', '')
+
+    db.session.commit()
 
     return render_template('chat.html', user=user_in_db, chat=chat_, messages=messages)
 
@@ -94,11 +100,15 @@ def send_message(chat_id):
     chat_ = Chat.query.filter_by(id=chat_id).first()
 
     message_text = request.form['message']
-    message_date = datetime.now().strftime('%d %B %Y, %H:%M')
+    message_date = datetime.now()
     author_id = user_in_db.id
     author_login = user_in_db.login
 
     new_message = Message(message_text, message_date, chat_id, author_id, author_login)
+
+    for member in chat_.members:
+        new_message.seen_users_ids += str(member.id) + ' '
+
     chat_.messages.append(new_message)
 
     db.session.commit()

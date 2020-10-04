@@ -4,6 +4,7 @@
 
 {% block content %}
     <div id="content">
+        {% include 'navbar.html' %}
         <h3>Logged in as {{user.login}}</h3>
         <p>
             <span id="chats">{{chat.name}}
@@ -26,13 +27,13 @@
                         </div>
                     {% elif message.author_id == user.id %}
                         <div class="message message-user">
-                            <span><b>{{message.author_login}}</b> {{message.date}}</span>
+                            <span><b>{{message.author_login}}</b> {{message.date.strftime('%d %B %Y, %H:%M')}} </span>
                             <hr/>
                             {{message.text}}
                         </div>
                     {% else %}
                         <div class="message message-friend">
-                            <span><b>{{message.author_login}}</b> {{message.date}}</span>
+                            <span><b>{{message.author_login}}</b> {{message.date.strftime('%d %B %Y, %H:%M')}} </span>
                             <hr/>
                             {{message.text}}
                         </div>

@@ -4,10 +4,11 @@
 
 {% block content %}
     <div id="content">
+        {% include 'navbar.html' %}
         <h3>Logged in as {{login}}</h3>
         <h2>Create new chat</h2>
         <form id="select-friends-form" action="create_chat" method="POST">
-            <input type="text" name="chat_name" placeholder="Chat name"/><br/><br/>
+            <input type="text" name="chat_name" placeholder="Chat name" required/><br/><br/>
             <h4>Select friends:</h4>
             {% if friends|length > 0 %}
                 {% for friend in friends %}
