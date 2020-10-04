@@ -58,6 +58,7 @@ img#question-mark
 {
     width:15px;
     height: 15px;
+    margin-left: 5px;
 }
 
 img#question-mark:hover
@@ -87,12 +88,7 @@ form>input:focus
     border: 5px solid #ffaa00;
 }
 
-#select-friends-form
-{
-    text-align: left;
-}
-
-.find-chat-form
+#select-friends-form, .find-chat-form, .notification-form, .leave-chat-form
 {
     text-align: left;
 }
@@ -148,6 +144,9 @@ form>input:focus
 input#notification-cb
 {
     margin-left: 2%;
+    width: auto;
+    height: auto;
+    margin-top: auto;
 }
 
 input#notification-cb:hover

@@ -83,6 +83,12 @@ def home():
 def chat(chat_id):
     chat_ = Chat.query.filter_by(id=chat_id).first()
     user_in_db = User.query.filter_by(id=session['user_id']).first()
+
+    # prevents user who just left the chat from entering it again by pressing back button in the browser
+    # as they are no longer a member or the chat does not exist anymore
+    if not chat_ or user_in_db not in chat_.members:
+        return redirect(url_for('home'))
+
     messages = Message.query.filter_by(chat_id=chat_id).all()
 
     # after opening chat users sees all the messages, remove their id
@@ -198,16 +204,22 @@ def leave_chat(chat_id):
 
     chat_.members.pop(chat_.members.index(user_in_db))
 
-    user_left_message = Message(f'{user_in_db.login} has left the chat.', datetime.now(), chat_.id,
-                                author_id=0, author_login='system')
-    for member in chat_.members:
-        user_left_message.seen_users_ids += str(member.id) + ' '
+    if chat_.members:
+        flash(f'You have left the chat {chat_.name}.', category='success')
+        user_left_message = Message(f'{user_in_db.login} has left the chat.', datetime.now(), chat_.id,
+                                    author_id=0, author_login='system')
+        for member in chat_.members:
+            user_left_message.seen_users_ids += str(member.id) + ' '
 
-    chat_.messages.append(user_left_message)
+        chat_.messages.append(user_left_message)
+    else:
+        for message in chat_.messages:
+            db.session.delete(message)
+
+        flash(f'No members in chat {chat_.name}. Chat has been deleted.', category='info')
+        db.session.delete(chat_)
 
     db.session.commit()
-
-    flash(f'You have left the chat {chat_.name}.', category='success')
 
     return redirect(url_for('home'))
 

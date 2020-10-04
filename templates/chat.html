@@ -11,13 +11,17 @@
             ({% for member in chat.members %} {{member.login}} {% endfor %}) </span>
         </p>
         <p>
-            <form action="{{url_for('leave_chat', chat_id=chat.id)}}" method="POST">
+            <form class="leave-chat-form" action="{{url_for('leave_chat', chat_id=chat.id)}}" method="POST">
                 <input class="chatter-btn option-btn" type="submit" value="Leave chat"/>
             </form>
-            <input id="notification-cb" type="checkbox" name="notifications"/> Notifications
-            <img id="question-mark" src="{{url_for('static', filename='images/question_mark.png')}}"
-            data-toggle="popover" title="Notifications" data-content="Check this box to receive mail
-            notifications about new messages in this chat."/>
+            <form class="notification-form">
+                <input class="chatter-btn option-btn" type="submit" value="Save"/>
+                <input id="notification-cb" type="checkbox" name="notifications"/>
+                <label>Notifications<img id="question-mark" src="{{url_for('static', filename='images/question_mark.png')}}"
+                data-toggle="popover" title="Notifications" data-content="Check this box to receive mail
+                notifications about new messages in this chat."/></label>
+            </form>
+
         </p>
 
         <div id="chat">
