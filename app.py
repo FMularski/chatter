@@ -178,12 +178,37 @@ def join_chat(chat_id):
 
     user_joined_message = Message(f'{user_in_db.login} has joined the chat.', datetime.now(),
                                   chat_id=chat_.id, author_id=0, author_login='system')
-    chat_.messages.append(user_joined_message)
+    # notify all members about new user joining
+    for member in chat_.members:
+        user_joined_message.seen_users_ids += str(member.id) + ' '
 
     chat_.members.append(user_in_db)
+    chat_.messages.append(user_joined_message)
+
     db.session.commit()
 
     flash(f'You have joined chat {chat_.name}.', category='success')
+    return redirect(url_for('home'))
+
+
+@app.route('/leave_chat/<chat_id>', methods=['POST'])
+def leave_chat(chat_id):
+    chat_ = Chat.query.filter_by(id=chat_id).first()
+    user_in_db = User.query.filter_by(id=session['user_id']).first()
+
+    chat_.members.pop(chat_.members.index(user_in_db))
+
+    user_left_message = Message(f'{user_in_db.login} has left the chat.', datetime.now(), chat_.id,
+                                author_id=0, author_login='system')
+    for member in chat_.members:
+        user_left_message.seen_users_ids += str(member.id) + ' '
+
+    chat_.messages.append(user_left_message)
+
+    db.session.commit()
+
+    flash(f'You have left the chat {chat_.name}.', category='success')
+
     return redirect(url_for('home'))
 
 

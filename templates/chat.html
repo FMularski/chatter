@@ -11,7 +11,9 @@
             ({% for member in chat.members %} {{member.login}} {% endfor %}) </span>
         </p>
         <p>
-            <a class="btn chatter-btn option-btn">Leave chat</a>
+            <form action="{{url_for('leave_chat', chat_id=chat.id)}}" method="POST">
+                <input class="chatter-btn option-btn" type="submit" value="Leave chat"/>
+            </form>
             <input id="notification-cb" type="checkbox" name="notifications"/> Notifications
             <img id="question-mark" src="{{url_for('static', filename='images/question_mark.png')}}"
             data-toggle="popover" title="Notifications" data-content="Check this box to receive mail

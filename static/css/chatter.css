@@ -172,11 +172,6 @@ div#chat
     text-align: center;
 }
 
-.table>td
-{
-    width: 33%;
-}
-
 .message
 {
     font-size: medium;
