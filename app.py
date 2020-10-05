@@ -119,8 +119,12 @@ def send_message(chat_id):
     new_message = Message(message_text, message_date, chat_id, author_id, author_login)
 
     for member in chat_.members:
-        new_message.seen_users_ids += str(member.id) + ' '
-
+        if member.id != user_in_db.id:
+            new_message.seen_users_ids += str(member.id) + ' '
+            if str(chat_.id) in member.notifications_chats_ids:
+                EmailManager.send_message(to=member.email, message=f'Subject: New message notification\n\n'
+                                                                   f'You have a new message in chat {chat_.name}.\n'
+                                                                   f'Log in and chat!')
     chat_.messages.append(new_message)
 
     db.session.commit()
@@ -160,8 +164,9 @@ def create_account():
 
         flash('Account has been successfully created. You can now log in.', category='success')
 
-        EmailManager.send_message(to=email, message=f"Subject: Hello {login_}!\n\n "
-                                                    f"Thank you for registering to chatter.")
+        EmailManager.send_message(to=email, message=f"Subject: Hello {login_}!\n\n"
+                                                    f"Thank you for registering to chatter.\n"
+                                                    f"Have fun chatting with friends!")
 
         return redirect(url_for('login'))
 
@@ -196,6 +201,10 @@ def join_chat(chat_id):
     # notify all members about new user joining
     for member in chat_.members:
         user_joined_message.seen_users_ids += str(member.id) + ' '
+        if str(chat_id) in member.notifications_chats_ids:
+            EmailManager.send_message(to=member.email, message=f"Subject: Chat event notification\n\n"
+                                                               f"Chat {chat_.name} has a new member!\n"
+                                                               f"Go log in and say hi!")
 
     chat_.members.append(user_in_db)
     chat_.messages.append(user_joined_message)
@@ -219,6 +228,10 @@ def leave_chat(chat_id):
                                     author_id=0, author_login='system')
         for member in chat_.members:
             user_left_message.seen_users_ids += str(member.id) + ' '
+            if str(chat_.id) in member.notifications_chats_ids:
+                EmailManager.send_message(to=member.email, message=f"Subject: Chat event notification\n\n"
+                                                                   f"Someone has left chat {chat_.name}.\n"
+                                                                   f"Go log in and see what happened!")
 
         chat_.messages.append(user_left_message)
     else:
