@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import os
+from email_manager.email_manager import EmailManager
 
 
 """
@@ -158,6 +159,9 @@ def create_account():
         db.session.commit()
 
         flash('Account has been successfully created. You can now log in.', category='success')
+
+        EmailManager.send_message(to=email, message=f"Subject: Hello {login_}!\n\n "
+                                                    f"Thank you for registering to chatter.")
 
         return redirect(url_for('login'))
 
