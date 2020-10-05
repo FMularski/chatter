@@ -24,6 +24,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.permanent_session_lifetime = timedelta(days=1)
 
 
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+
+
 """
 initializing db with app
 """
@@ -222,6 +227,21 @@ def leave_chat(chat_id):
     db.session.commit()
 
     return redirect(url_for('home'))
+
+
+@app.route('/save_notifications/<chat_id>', methods=['POST'])
+def save_notifications(chat_id):
+    user_in_db = User.query.filter_by(id=session['user_id']).first()
+
+    if not request.form.getlist('notifications'):
+        user_in_db.notifications_chats_ids = str(user_in_db.notifications_chats_ids).replace(str(chat_id) + ' ', '')
+    else:
+        user_in_db.notifications_chats_ids += str(chat_id) + ' '
+
+    db.session.commit()
+    flash('Notifications saved.', category='success')
+
+    return redirect(url_for('chat', chat_id=chat_id))
 
 
 @app.route('/friends', methods=['GET'])

@@ -14,9 +14,16 @@
             <form class="leave-chat-form" action="{{url_for('leave_chat', chat_id=chat.id)}}" method="POST">
                 <input class="chatter-btn option-btn" type="submit" value="Leave chat"/>
             </form>
-            <form class="notification-form">
+            <form class="notification-form" action="{{url_for('save_notifications', chat_id=chat.id)}}" method="POST">
                 <input class="chatter-btn option-btn" type="submit" value="Save"/>
-                <input id="notification-cb" type="checkbox" name="notifications"/>
+                {% if chat.id ~ '' in user.notifications_chats_ids %}
+                    <input class="notification-cb" type="checkbox" name="notifications" checked />
+                {% else %}
+                    <input class="notification-cb" type="checkbox" name="notifications"/>
+                {% endif %}
+
+
+
                 <label>Notifications<img id="question-mark" src="{{url_for('static', filename='images/question_mark.png')}}"
                 data-toggle="popover" title="Notifications" data-content="Check this box to receive mail
                 notifications about new messages in this chat."/></label>

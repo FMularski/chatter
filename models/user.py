@@ -34,10 +34,13 @@ class User(db.Model):
                               secondaryjoin=friendships.c.friend_id == id,
                               backref='users_knowing_this')
 
+    notifications_chats_ids = db.Column(db.String(256))
+
     def __init__(self, login, email, password):
         self.login = login
         self.email = email
         self.password = password
+        self.notifications_chats_ids = ''
 
     def __repr__(self):
         return f'{self.id} {self.login} {self.email} {self.password}'

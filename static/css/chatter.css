@@ -141,7 +141,7 @@ form>input:focus
     color: white;
 }
 
-input#notification-cb
+input.notification-cb
 {
     margin-left: 2%;
     width: auto;
